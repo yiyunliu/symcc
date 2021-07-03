@@ -29,6 +29,7 @@ except OSError:
     pass
 
 config.environment["SYMCC_OUTPUT_DIR"] = outputDir
+config.environment["NIX_STORE"] = "/nix/store"
 
 # Delegate to the generic configuration file
 lit_config.load_config(config, path.join(config.test_source_root, "lit.cfg"))

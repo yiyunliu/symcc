@@ -50,13 +50,13 @@ ExternalProject_Add(SymRuntime
 #   WORKING_DIRECTORY util/symcc_fuzzing_helper
 #   )
 
-file(COPY util/symcc_fuzzing_helper DESTINATION ./)
+# file(COPY util/symcc_fuzzing_helper DESTINATION ./)
 
-add_custom_target(
-  symcc_fuzzing_helper ALL
-  COMMAND cargo build
-  WORKING_DIRECTORY symcc_fuzzing_helper
-  )
+# add_custom_target(
+#   symcc_fuzzing_helper ALL
+#   COMMAND cargo build
+#   WORKING_DIRECTORY symcc_fuzzing_helper
+#   )
 
 ExternalProject_Get_Property(SymRuntime BINARY_DIR)
 
@@ -136,5 +136,5 @@ install(TARGETS Symbolize DESTINATION lib)
 install(PROGRAMS
   ${CMAKE_CURRENT_BINARY_DIR}/symcc
   ${CMAKE_CURRENT_BINARY_DIR}/sym++
-  ${CMAKE_CURRENT_BINARY_DIR}/symcc_fuzzing_helper/target/debug/symcc_fuzzing_helper
+  # ${CMAKE_CURRENT_BINARY_DIR}/symcc_fuzzing_helper/target/debug/symcc_fuzzing_helper
   DESTINATION bin)

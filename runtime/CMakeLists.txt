@@ -40,3 +40,6 @@ if (${QSYM_BACKEND})
 else()
   add_subdirectory(simple_backend)
 endif()
+
+
+install(TARGETS SymRuntime DESTINATION lib)

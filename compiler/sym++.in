@@ -16,7 +16,7 @@
 
 runtime_64bit_dir="${SYMCC_RUNTIME_DIR:-@SYM_RUNTIME_DIR@}"
 runtime_32bit_dir="${SYMCC_RUNTIME32_DIR:-@SYM_RUNTIME_32BIT_DIR@}"
-pass="${SYMCC_PASS_DIR:-@CMAKE_CURRENT_BINARY_DIR@}/libSymbolize.so"
+pass="${SYMCC_PASS_DIR:-@CMAKE_INSTALL_PREFIX@/lib}/libSymbolize.so"
 libcxx_var=SYMCC_LIBCXX_PATH
 compiler="${SYMCC_CLANGPP:-@CLANGPP_BINARY@}"
 

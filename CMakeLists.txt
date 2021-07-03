@@ -24,6 +24,7 @@ option(TARGET_32BIT "Make the compiler work correctly with -m32" OFF)
 include(ExternalProject)
 
 set(SYM_RUNTIME_BUILD_ARGS
+  -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
   -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
   -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS}
   -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
@@ -40,11 +41,31 @@ ExternalProject_Add(SymRuntime
   -DCMAKE_EXPORT_COMPILE_COMMANDS=${CMAKE_EXPORT_COMPILE_COMMANDS}
   -DZ3_DIR=${Z3_DIR}
   -DLLVM_DIR=${LLVM_DIR}
-  INSTALL_COMMAND ""
   BUILD_ALWAYS TRUE)
 
+# add_custom_command(
+#   OUTPUT util/symcc_fuzzing_helper/symcc_fuzzing_helper
+#   COMMAND cargo
+#   ARGS build
+#   WORKING_DIRECTORY util/symcc_fuzzing_helper
+#   )
+
+file(COPY util/symcc_fuzzing_helper DESTINATION ./)
+
+add_custom_target(
+  symcc_fuzzing_helper ALL
+  COMMAND cargo build
+  WORKING_DIRECTORY symcc_fuzzing_helper
+  )
+
 ExternalProject_Get_Property(SymRuntime BINARY_DIR)
-set(SYM_RUNTIME_DIR ${BINARY_DIR})
+
+
+if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+  set(SYM_RUNTIME_DIR ${CMAKE_INSTALL_PREFIX}/lib)
+else()
+  set(SYM_RUNTIME_DIR ${CMAKE_INSTALL_PREFIX}/lib)
+endif()
 
 if (${TARGET_32BIT})
   ExternalProject_Add(SymRuntime32
@@ -105,7 +126,15 @@ if (NOT CLANG_BINARY)
   message(FATAL_ERROR "Clang not found; please make sure that the version corresponding to your LLVM installation is available.")
 endif()
 
-configure_file("compiler/symcc.in" "symcc" @ONLY)
+
 configure_file("compiler/sym++.in" "sym++" @ONLY)
+configure_file("compiler/symcc.in" "symcc" @ONLY)
 
 add_subdirectory(test)
+
+install(TARGETS Symbolize DESTINATION lib)
+install(PROGRAMS
+  ${CMAKE_CURRENT_BINARY_DIR}/symcc
+  ${CMAKE_CURRENT_BINARY_DIR}/sym++
+  ${CMAKE_CURRENT_BINARY_DIR}/symcc_fuzzing_helper/target/debug/symcc_fuzzing_helper
+  DESTINATION bin)

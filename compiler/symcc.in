@@ -16,7 +16,7 @@
 
 runtime_64bit_dir="${SYMCC_RUNTIME_DIR:-@SYM_RUNTIME_DIR@}"
 runtime_32bit_dir="${SYMCC_RUNTIME32_DIR:-@SYM_RUNTIME_32BIT_DIR@}"
-pass="${SYMCC_PASS_DIR:-@CMAKE_CURRENT_BINARY_DIR@}/libSymbolize.so"
+pass="${SYMCC_PASS_DIR:-@CMAKE_INSTALL_PREFIX@/lib}/libSymbolize.so"
 compiler="${SYMCC_CLANG:-@CLANG_BINARY@}"
 
 # Find out if we're cross-compiling for a 32-bit architecture

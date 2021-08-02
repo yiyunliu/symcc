@@ -134,6 +134,7 @@ add_subdirectory(test)
 
 install(TARGETS Symbolize DESTINATION lib)
 install(PROGRAMS
+  util/pure_concolic_execution.sh
   ${CMAKE_CURRENT_BINARY_DIR}/symcc
   ${CMAKE_CURRENT_BINARY_DIR}/sym++
   # ${CMAKE_CURRENT_BINARY_DIR}/symcc_fuzzing_helper/target/debug/symcc_fuzzing_helper

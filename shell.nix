@@ -1,5 +1,7 @@
 with import <nixpkgs> {};
-callPackage ./default.nix
-  { stdenv = llvmPackages_10.stdenv;
-    llvm = llvmPackages_10.llvm;
-  }
+mkShell {
+  nativeBuildInputs = callPackage ./default.nix
+    { stdenv = llvmPackages_10.stdenv;
+      llvm = llvmPackages_10.llvm;
+    };
+}
